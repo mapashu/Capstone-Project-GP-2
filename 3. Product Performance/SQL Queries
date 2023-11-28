@@ -1,0 +1,14 @@
+SELECT p.name, p.retail_price - p.cost as profit_per_item, COUNT(oi.sale_price)as num_sales, (p.retail_price - p.cost)*(COUNT(oi.sale_price))AS Revenue, p.category, OI.created_at
+FROM `bigquery-public-data.thelook_ecommerce.order_items` OI 
+
+
+LEFT JOIN bigquery-public-data.thelook_ecommerce.products P
+ON OI.product_id = P.id
+
+LEFT JOIN bigquery-public-data.thelook_ecommerce.users U
+ON OI.user_id=U.id
+
+GROUP BY p.name, p.retail_price, p.cost, p.category,OI.created_at
+ORDER BY Revenue DESC
+ 
+LIMIT 1000
